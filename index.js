@@ -41,20 +41,34 @@ async function run() {
         app.patch('/user/admin/:id', async (req, res) => {
             const id = req.params.id;
             console.log(id);
-            const filter = { _id: new ObjectId(id) }
+            const query = { _id: new ObjectId(id) }
             const updateDoc = {
                 $set: {
                     role: 'admin'
                 },
-            };
-            const result = await userCollation.updateOne(filter, updateDoc);
+
+            }
+            const result = await userCollation.updateOne(query, updateDoc);
             res.send(result)
+        })
 
-        });
+        app.patch('/user/user/:id', async (req, res) => {
+            const id = req.params.id;
+            console.log(id);
+            const query = { _id: new ObjectId(id) }
+            const updateDoc = {
+                $set: {
+                    role: 'user'
+                },
 
+            }
+            const result = await userCollation.updateOne(query, updateDoc);
+            res.send(result)
+        })
 
         app.get('/user/admin/:email', async(req, res) => {
             const email = req.params.email;
+            console.log(email)
             const query = {email: email}
             const user= await userCollation.findOne(query);
             let admin = false;
@@ -63,8 +77,6 @@ async function run() {
             }
             res.send({admin})
         })
-
-
 
 
     }
